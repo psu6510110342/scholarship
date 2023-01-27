@@ -1,11 +1,10 @@
-import apiRouter from 'api';
 import Koa from 'koa'
-import { koaBody } from 'koa-body'
+import json from 'koa-json'
+import apiRouter from './api'
 
 const app = new Koa()
 
-
-app.use(koaBody());
-app.use(apiRouter.routes());
+app.use(json())
+app.use(apiRouter.routes())
 
 app.listen(8000)
