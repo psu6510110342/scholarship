@@ -1,5 +1,5 @@
 import axios from "axios"
-import appConfig from "config"
+import appConfig from "./config"
 import jwt from 'jsonwebtoken'
 import Koa from 'koa'
 
@@ -10,12 +10,24 @@ export interface AuthData {
     isStaff: boolean
 }
 
-export async function  initSsoCert() {
+export async function initSsoCert() {
     const result = await axios.get(appConfig.ssoIssuer)
     public_key = `-----BEGIN PUBLIC KEY-----\n${result.data.public_key}\n-----END PUBLIC KEY-----\n`
+    console.log(public_key)
 }
 
 export async function verifyJwt(token: string){
+    if(appConfig.isDev && token.startsWith('DEV::')){
+        const items = token.split('::')
+        const data =  {
+          preferred_username: items[1],
+          groups: ['student']
+        }
+        if(items.length >= 3 && items[2] == '1'){
+          data.groups.push('staff')
+        }
+        return data
+      }
     return new Promise<any>((resolve, reject) => {
         jwt.verify(token, public_key as jwt.Secret, { issuer: appConfig.ssoIssuer, algorithms: ['RS256'] },(err,decoded) => {
             if(err){
