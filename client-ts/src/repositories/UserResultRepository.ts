@@ -47,4 +47,5 @@ export class UserResultRepotiory implements IRepository<UserResult> {
         const resp = await ax.get<UserResult>(`${this.urlPrefix}/userResult/${id}/pin`)
         return resp.data
     }
+    async delete(id: string|number): Promise<void>{}
 }
