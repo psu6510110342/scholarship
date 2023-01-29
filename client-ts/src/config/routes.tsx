@@ -1,5 +1,6 @@
 import {Route, Routes, useLocation, Navigate} from "react-router-dom"
 import { useAppCtx } from "../AppProvider"
+import AnnouncementList from "../pages/announcement-list"
 
 import Login from "../pages/login"
 import UserResultList from "../pages/user-result-list"
@@ -30,6 +31,7 @@ const AppRoutes = () => {
             <Route index element={<Login />} />
             <Route path="login" element={<Login />}/>
             <Route path="home" element={<ProtectedRoute><UserResultList/></ProtectedRoute>} />
+            <Route path='announcement' element={<ProtectedRoute><AnnouncementList/></ProtectedRoute>}/>
         </Routes>
     )
 }
